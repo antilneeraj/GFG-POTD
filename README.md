@@ -2,7 +2,7 @@
 
 ### Title - Add Minimum Characters<br><br>
 
-```
+```python
 class Solution:
     def addMinChar(self, str1):
         orig = list(str1)
