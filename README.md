@@ -1,34 +1,18 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Add Minimum Characters<br><br>
+### Title - Make the array beautiful<br><br>
 
 ```python
+from typing import List
+
 class Solution:
-    def addMinChar(self, str1):
-        orig = list(str1)
-        temp = list(str1)
-        temp.reverse()
-        s = "".join(orig) + '#' + "".join(temp)
-        n = len(s)
-        lps = self.LPS(s)
-        return len(str1) - lps[n-1]
-          
-    def LPS(self, str):
-        n = len(str)
-        lps = [0] * n
-        i = 1
-        length = 0
-        lps[0] = 0
-        while i < n:
-            if str[i] == str[length]:
-                length += 1
-                lps[i] = length
-                i += 1
+    def makeBeautiful(self, arr: List[int]) -> List[int]:
+        n = len(arr)
+        lst = []
+        for i in range(n):
+            if len(lst) != 0 and ((lst[-1] < 0 and arr[i] >= 0) or (lst[-1] >= 0 and arr[i] < 0)):
+                lst.pop()
             else:
-                if length == 0:
-                    lps[i] = 0
-                    i += 1
-                else:
-                    length = lps[length - 1]
-        return lps
+                lst.append(arr[i])
+        return lst
 ```
