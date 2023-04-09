@@ -1,41 +1,60 @@
-max_size = 10**5 + 10
-fact = [0] * max_size
 mod = 10**9 + 7
-
-def power(n, x):
-    ans = 1
-    while x > 0:
-        if x & 1:
-            ans = (ans * n) % mod
-            x -= 1
-        else:
-            n = (n * n) % mod
-            x >>= 1
-    return ans % mod
-
-def checker(n, c, d):
-    s = str(n)
-    for i in s:
-        if int(i) != c and int(i) != d:
-            return False
-    return True
-
-def ncr(n, r):
-    ans = fact[n]
-    ans = (ans * power(fact[r], mod - 2)) % mod
-    ans = (ans * power(fact[n - r], mod - 2)) % mod
-    return ans % mod
+hogya = False
+factorial = [0] * 100001
+mm = [0] * 100001
 
 class Solution:
+    def help(self):
+        factorial[0] = 1
+        for i in range(1, 100001):
+            factorial[i] = (i * factorial[i-1]) % mod
+        mm[100000] = self.power(factorial[100000], mod - 2)
+        for i in range(99999, -1, -1):
+            mm[i] = (mm[i+1] * (i+1)) % mod
+
+    def power(self, x, y):
+        res = 1
+        x = x % mod
+        while y > 0:
+            if y & 1:
+                res = (res * x) % mod
+            y = y >> 1
+            x = (x * x) % mod
+        return res
+
+    def help2(self, n, r):
+        return (factorial[n] * mm[r] % mod * mm[n - r] % mod) % mod
+
     def bestNumbers(self, N, A, B, C, D):
-        fact[0] = fact[1] = 1
-        for i in range(2, N + 5):
-            fact[i] = (i * fact[i - 1]) % mod
-
+        global hogya
+        hai = False
+        i = 0
+        if A == B:
+            sum = N * A
+            while sum != 0:
+                digit = sum % 10
+                if digit == C or digit == D:
+                    hai = True
+                    break
+                sum //= 10
+            if hai:
+                return 1
+            return 0
+        if hogya == False:
+            self.help()
+            hogya = True
         ans = 0
-        for i in range(N + 1):
-            sum = i * A + (N - i) * B
-            if checker(sum, C, D):
-                ans = (ans + ncr(N, i)) % mod
-
+        while i <= N:
+            sum = A * i + (B * (N - i))
+            hai = False
+            while sum != 0:
+                digit = sum % 10
+                if digit == C or digit == D:
+                    hai = True
+                    break
+                sum //= 10
+            if hai == True:
+                ans += self.help2(N, i)
+                ans %= mod
+            i += 1
         return ans
