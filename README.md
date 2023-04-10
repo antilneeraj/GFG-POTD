@@ -1,6 +1,6 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Special Digits<br><br>
+### Title - Maximum Intersecting Lines<br><br>
 
 ```python
 from collections import defaultdict
