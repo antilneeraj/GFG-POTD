@@ -1,25 +1,11 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Maximum Intersecting Lines<br><br>
+### Title - Maximum Length<br><br>
 
 ```python
-from collections import defaultdict
-
 class Solution:
-    def maxIntersections(self, lines, N):
-        mp = defaultdict(int)
-        for x in lines:
-            st = x[0]
-            end = x[1] + 1
-            mp[st] += 1
-            mp[end] -= 1
-
-        sorted_keys = sorted(mp.keys())
-        ans = 0
-        curr = 0
-        for key in sorted_keys:
-            curr += mp[key]
-            ans = max(ans, curr)
-
-        return ans
+    def solve(self, a, b, c):
+        if a > (2 * (b + c) + 2) or b > (2 * (a + c) + 2) or c > (2 * (b + a) + 2):
+            return -1
+        return a + b + c
 ```
