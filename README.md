@@ -3,9 +3,18 @@
 ### Title - Maximum Length<br><br>
 
 ```python
+from typing import List
+
 class Solution:
-    def solve(self, a, b, c):
-        if a > (2 * (b + c) + 2) or b > (2 * (a + c) + 2) or c > (2 * (b + a) + 2):
-            return -1
-        return a + b + c
+    def dominantPairs(self, n : int, arr : List[int]) -> int:
+        arr.sort()  # sort the entire array
+        
+        ans = 0
+        j = n // 2
+        for i in range(n // 2):
+            while j < n and arr[i] >= 5 * arr[j]:
+                j += 1
+            ans += j - n // 2
+        
+        return ans
 ```
