@@ -5,9 +5,12 @@
 ```python
 from typing import List
 
+
 class Solution:
     def dominantPairs(self, n : int, arr : List[int]) -> int:
-        arr.sort()  # sort the entire array
+        # code here
+        arr[:n//2] = sorted(arr[:n//2])  # sort left half
+        arr[n//2:n] = sorted(arr[n//2:n])  # sort right half
         
         ans = 0
         j = n // 2
