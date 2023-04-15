@@ -1,21 +1,22 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Remove the balls<br><br>
+### Title - Find Total Time Taken<br><br>
 
 ```python
 from typing import List
 
 class Solution:
-    def finLength(self, N : int, color : List[int], radius : List[int]) -> int:
-        st = []
-        for i in range(N):
-            if len(st):
-                index = st[-1]
-                if color[index] == color[i] and radius[index] == radius[i]:
-                    st.pop()
-                else:
-                    st.append(i)
+    def totalTime(self, n : int, arr : List[int], time : List[int]) -> int:
+        curr = 0
+        taken = {}
+        
+        for i in range(n):
+            if arr[i] not in taken:
+                taken[arr[i]] = curr
             else:
-                st.append(i)
-        return len(st)
+                curr = max(curr, taken[arr[i]] + time[arr[i]-1])
+                taken[arr[i]] = curr
+            curr += 1
+        
+        return curr - 1
 ```
