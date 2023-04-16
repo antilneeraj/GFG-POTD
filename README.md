@@ -1,26 +1,40 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Find Total Time Taken<br><br>
+### Title - Unequal Arrays<br><br>
 
 ```python
-from typing import List
-
-
 class Solution:
-    def totalTime(self, n : int, arr : List[int], time : List[int]) -> int:
-        curr = 0
-        taken = {
-            arr[0]: True
-        }
-        
-        for i in range(1, n):
-            arri=arr[i]
-            if(arri in taken):
-                curr+=time[arri-1]
+    def solve(self, N, A, B):
+        # code here
+        sum = 0
+        # make two lists for storing and separating odd and even elements
+        x = [[], []]
+        y = [[], []]
+        # iterate over A and B arrays
+        for i in range(N):
+            sum += A[i] - B[i]
+            if A[i] % 2 == 0:
+                x[0].append(A[i])
             else:
-                curr+=1
-            
-            taken[arri] = True
-        
-        return curr
+                x[1].append(A[i])
+            if B[i] % 2 == 0:
+                y[0].append(B[i])
+            else:
+                y[1].append(B[i])
+    
+        # not possible to convert
+        if sum != 0 or len(x[0]) != len(y[0]):
+            return -1
+    
+        ans = 0
+    
+        # sort list one by one and take the difference.
+        for i in range(2):
+            x[i].sort()
+            y[i].sort()
+    
+            for j in range(len(x[i])):
+                ans += abs(x[i][j] - y[i][j]) // 2
+    
+        return ans // 2
 ```
