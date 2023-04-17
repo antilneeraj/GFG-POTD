@@ -1,40 +1,33 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Unequal Arrays<br><br>
+### Title - Job Sequencing Problem<br><br>
 
 ```python
+class JobComparator:
+    def compare(self, j1, j2):
+        return j2.profit - j1.profit
+
 class Solution:
-    def solve(self, N, A, B):
-        # code here
-        sum = 0
-        # make two lists for storing and separating odd and even elements
-        x = [[], []]
-        y = [[], []]
-        # iterate over A and B arrays
-        for i in range(N):
-            sum += A[i] - B[i]
-            if A[i] % 2 == 0:
-                x[0].append(A[i])
-            else:
-                x[1].append(A[i])
-            if B[i] % 2 == 0:
-                y[0].append(B[i])
-            else:
-                y[1].append(B[i])
-    
-        # not possible to convert
-        if sum != 0 or len(x[0]) != len(y[0]):
-            return -1
-    
-        ans = 0
-    
-        # sort list one by one and take the difference.
-        for i in range(2):
-            x[i].sort()
-            y[i].sort()
-    
-            for j in range(len(x[i])):
-                ans += abs(x[i][j] - y[i][j]) // 2
-    
-        return ans // 2
+    # Function to find the maximum profit and the number of jobs done.
+    def JobScheduling(self, arr, n):
+        # Your code here
+        arr.sort(key=lambda x: x.profit, reverse=True)
+
+        res = 0
+        tot_job = 0
+        slot = [False] * n  # track of free time slots - all false now
+
+        # itr for all jobs.
+        for i in range(n):
+            # linear search [deadline to 0] - explained in dry run
+            for j in range(arr[i].deadline - 1, -1, -1):
+                # if free slot found - add the profits, tot_job++, mark slot filled
+                if not slot[j]:
+                    res += arr[i].profit
+                    tot_job += 1
+                    slot[j] = True
+                    break
+
+        ans = [tot_job, res]
+        return ans
 ```
