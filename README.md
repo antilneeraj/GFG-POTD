@@ -1,33 +1,54 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Job Sequencing Problem<br><br>
+### Title - Minimum BST Sum Subtree<br><br>
 
 ```python
-class JobComparator:
-    def compare(self, j1, j2):
-        return j2.profit - j1.profit
+
 
 class Solution:
-    # Function to find the maximum profit and the number of jobs done.
-    def JobScheduling(self, arr, n):
-        # Your code here
-        arr.sort(key=lambda x: x.profit, reverse=True)
+    def get(self, root, c):
+        if not root:
+            return 0
 
-        res = 0
-        tot_job = 0
-        slot = [False] * n  # track of free time slots - all false now
+        c[0] += 1
+        l = self.get(root.left, c)
+        r = self.get(root.right, c)
 
-        # itr for all jobs.
-        for i in range(n):
-            # linear search [deadline to 0] - explained in dry run
-            for j in range(arr[i].deadline - 1, -1, -1):
-                # if free slot found - add the profits, tot_job++, mark slot filled
-                if not slot[j]:
-                    res += arr[i].profit
-                    tot_job += 1
-                    slot[j] = True
+        return l + r + root.data
+
+    def populate(self, root, v):
+        if not root:
+            return
+
+        self.populate(root.left, v)
+        v.append(root.data)
+        self.populate(root.right, v)
+
+    def recur(self, target, root, res):
+        if not root:
+            return
+
+        c = [0]
+        sum = self.get(root, c)
+
+        if sum == target:
+            v = []
+            self.populate(root, v)
+
+            be = True
+            for i in range(1, len(v)):
+                if v[i - 1] >= v[i]:
+                    be = False
                     break
 
-        ans = [tot_job, res]
-        return ans
+            if be:
+                res[0] = min(res[0], c[0])
+
+        self.recur(target, root.left, res)
+        self.recur(target, root.right, res)
+
+    def minSubtreeSumBST(self, target, root):
+        sum = [1e9]
+        self.recur(target, root, sum)
+        return int(sum[0]) if sum[0] != 1e9 else -1
 ```
