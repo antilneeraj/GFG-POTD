@@ -1,23 +1,27 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Prefix Suffix String<br><br>
+### Title - Smaller Sum<br><br>
 
 ```python
+from typing import List
+
 class Solution:
-    def prefixSuffixString(self, s1, s2) -> int:
-        mm = {}
-        for x in s1:
-            temp = ""
-            for i in range(len(x)):
-                temp += x[i]
-                mm[temp] = True
-            temp = ""
-            for i in range(len(x)-1, -1, -1):
-                temp = x[i] + temp
-                mm[temp] = True
-        ans = 0
-        for x in s2:
-            if x in mm:
-                ans += 1
-        return ans        
+    def smallerSum(self, n : int, arr : List[int]) -> List[int]:
+        cp = arr.copy()
+        cp.sort()
+        
+        dit = {}
+        pre_sum = 0
+        
+        for elem in cp:
+            if elem not in dit:
+                dit[elem] = pre_sum
+            
+            pre_sum += elem
+        
+        ans = [] 
+        for i in range(n):
+            ans.append(dit[arr[i]])
+            
+        return ans
 ```
