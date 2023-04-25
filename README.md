@@ -1,40 +1,53 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Nearset Smaller Tower<br><br>
+### Title - Game Of Subsets<br><br>
 
 ```python
-from collections import deque
+from typing import List
 
 class Solution:
-    def nearestSmallestTower(self, arr):
-        n = len(arr)
-        left, right = deque(), deque()
-        res = [-1] * n
+    def __init__(self):
+        self.mod = 10**9 + 7
+        self.mp = [0] * 31
+        primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+        for i in range(2, 31):
+            if i % 4 == 0 or i % 9 == 0 or i == 25:
+                continue
+            mask = 0
+            for j, p in enumerate(primes):
+                if i % p == 0:
+                    mask |= 1 << j
+            self.mp[i] = mask
 
-        for i in range(n):
-            while left and arr[left[-1]] >= arr[i]:
-                left.pop()
+    def pow(self, n):
+        ans, m = 1, 2
+        while n != 0:
+            if n & 1 == 1:
+                ans = (ans * m) % self.mod
+            m = (m * m) % self.mod
+            n >>= 1
+        return ans
 
-            if left:
-                res[i] = left[-1]
+    def goodSubsets(self, n : int, arr : List[int]) -> int:
+        one = 0
+        dp = [0] * 1024
+        cnt = [0] * 31
+        dp[0] = 1
+        for i in arr:
+            if i == 1:
+                one += 1
+            elif self.mp[i] != 0:
+                cnt[i] += 1
+        for i in range(31):
+            if cnt[i] == 0:
+                continue
+            for j in range(1024):
+                if j & self.mp[i] != 0:
+                    continue
+                dp[j | self.mp[i]] = (dp[j | self.mp[i]] + dp[j] * cnt[i]) % self.mod
 
-            left.append(i)
-
-        for i in range(n-1, -1, -1):
-            while right and arr[right[-1]] >= arr[i]:
-                right.pop()
-
-            if right:
-                if res[i] != -1:
-                    if abs(res[i] - i) == abs(right[-1] - i):
-                        if arr[res[i]] > arr[right[-1]]:
-                            res[i] = right[-1]
-                    elif abs(res[i] - i) > abs(right[-1] - i):
-                        res[i] = right[-1]
-                else:
-                    res[i] = right[-1]
-
-            right.append(i)
-
-        return res
+        ans = sum(dp) % self.mod - 1
+        if one != 0:
+            ans = (ans * self.pow(one)) % self.mod
+        return ans
 ```
