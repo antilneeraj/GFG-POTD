@@ -1,74 +1,41 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Easy Task<br><br>
+### Title - Geek's Village and Wells<br><br>
 
 ```python
-class SegmentTree:
-    def __init__(self, s):
-        n = len(s)
-        self.tree = [[0]*(26) for _ in range(4*n)]
-        self.buildTree(s, 0, n - 1, 0)
+from typing import List, Tuple
+from collections import deque
 
-    def buildTree(self, s, left, right, index = 0):
-        if left == right:
-            self.tree[index][ord(s[left])-ord("a")]+=1
-            return
-
-        mid = (left + right) // 2
-        self.buildTree(s, left, mid, 2 * index + 1)
-        self.buildTree(s, mid + 1, right, 2 * index + 2)
-        for c in range(26):
-            
-            self.tree[index][c] = self.tree[2 * index + 1][c] + self.tree[2 * index + 2][c]
-    def update(self, s,left, right, pos, char,index = 0):
-        if pos < left or pos > right:
-            return
-
-        if left == right:
-            self.tree[index][ord(s[pos])-ord("a")] -=1
-            s[pos]=char
-            self.tree[index][ord(s[pos])-ord("a")] +=1
-            return
-
-        mid = (left + right) // 2
-        if pos <= mid:
-            self.update(s,left, mid, pos, char,2 * index + 1)
-        else:
-            self.update(s,mid + 1, right, pos, char,2 * index + 2)
-
-        for c in range(26):
-            
-            self.tree[index][c] = self.tree[2 * index + 1][c] + self.tree[2 * index + 2][c]
-    def query(self, left, right, i, j, index = 0):
-        if right < i or left > j:
-            return [0]*26
-
-        if i <= left and right <= j:
-            return self.tree[index]
-
-        mid = (left + right) // 2
-        temp=[0]*(26)
-        
-        res1=self.query(left, mid, i, j, 2 * index + 1)
-        res2=self.query(mid + 1, right, i, j,2 * index + 2)
-        for c in range(26):
-            temp[c]=res1[c]+res2[c]
-        return temp
 class Solution:
-    def easyTask(self,n,s,q,queries):
-        s=[el for el in s]
-        seg=SegmentTree(s)
-        res=[]
-        for quer in queries:
-            if quer[0]=="1":
-                seg.update(s,0,n-1,int(quer[1]),quer[2])
-            else:
-                char_freq=seg.query(0,n-1,int(quer[1]),int(quer[2]))
-                k=int(quer[3])
-                for c in range(25,-1,-1):
-                    k-=min(k,char_freq[c])
-                    if k==0:
-                        res.append(chr(ord("a")+c))
-                        break
-        return res
+    def chefAndWells(self, n: int, m: int, c: List[List[str]]) -> List[List[int]]:
+        ans = [[-1 for _ in range(m)] for _ in range(n)]
+        q = deque()
+        
+        for i in range(n):
+            for j in range(m):
+                if c[i][j] == 'W':
+                    q.append((i,j))
+                    ans[i][j] = 0
+        
+        x = [-1,1,0,0]
+        y = [0,0,-1,1]
+        
+        while q:
+            temp = q.popleft()
+            i, j = temp[0], temp[1]
+            for k in range(4):
+                newi = i + x[k]
+                newj = j + y[k]
+                if 0 <= newi < n and 0 <= newj < m and c[newi][newj] != 'N' and ans[newi][newj] == -1:
+                    ans[newi][newj] = ans[i][j] + 1
+                    q.append((newi, newj))
+        
+        for i in range(n):
+            for j in range(m):
+                if c[i][j] == 'N' or c[i][j] == '.':
+                    ans[i][j] = 0
+                elif ans[i][j] != -1:
+                    ans[i][j] *= 2
+        
+        return ans
 ```
