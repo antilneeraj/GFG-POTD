@@ -1,6 +1,6 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - FInd Number<br><br>
+### Title - Find Number<br><br>
 
 ```python
 class Solution:
