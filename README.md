@@ -1,18 +1,29 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Find Number<br><br>
+### Title - Powefull Integer<br><br>
 
 ```python
 class Solution:
-    def findNumber(self, N : int) -> int:
-        curr, ans = 1, 0
-        arr = [9, 1, 3, 5, 7]
-        while N:
-            ans = arr[N%5] * curr + ans
-            if N%5 == 0:
-                N = N//5 - 1
-            else:
-                N = N//5
-            curr = curr * 10
-        return ans
+    def powerfullInteger(self,n,intervals,k):
+        mp={}
+        for start,end in intervals:
+            if start not in mp:
+                mp[start]=0
+            if end+1 not in mp:
+                mp[end+1]=0
+            mp[start]+=1
+            mp[end+1]-=1
+        v=-1
+        temp=0
+        for el in sorted(mp.keys()):
+            if mp[el]>=0:
+                    
+                temp+=mp[el]
+                if temp>=k:
+                    v=el
+            else :
+                if temp>=k:
+                    v=el-1
+                temp+=mp[el]
+        return v
 ```
