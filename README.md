@@ -1,6 +1,6 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Powefull Integer<br><br>
+### Title - Powerfull Integer<br><br>
 
 ```python
 class Solution:
