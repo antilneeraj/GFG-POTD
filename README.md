@@ -1,31 +1,38 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Subtree In N-ary Tree<br><br>
+### Title - Cake Distribution Problem<br><br>
 
 ```python
-class Solution:
-    def duplicateSubtreeNaryTree(self, root):
-        subtrees_count = {}
+class Solution():
+    def isPoss(self, sweetness, mid, k):
+        sum_val = 0
+        cnt = 0
+        for s in sweetness:
+            sum_val += s
+            if sum_val >= mid:
+                cnt += 1
+                sum_val = 0
+        return cnt >= k + 1    
+    
+    
+    def maxSweetness(self, sweetness, n, k):
+        sum_val = 0
+        min_sweetness = float('inf')
+        for s in sweetness:
+            sum_val += s
+            min_sweetness = min(min_sweetness, s)
         
-        def find_duplicate_subtrees(root):
-            if root is None:
-                return ""
-            
-            subtree_str = root.__str__()
-            
-            for child in root.children:
-                subtree_str = subtree_str + "#" + find_duplicate_subtrees(child)
-            
-            subtrees_count[subtree_str] = subtrees_count.get(subtree_str, 0) + 1
-            
-            return subtree_str
+        l = min_sweetness
+        h = sum_val
+        ans = 0
         
-        find_duplicate_subtrees(root)
+        while l <= h:
+            mid = (l + h) // 2
+            if self.isPoss(sweetness, mid, k):
+                ans = mid
+                l = mid + 1
+            else:
+                h = mid - 1
         
-        duplicate_count = 0
-        for count in subtrees_count.values():
-            if count > 1:
-                duplicate_count += 1
-        
-        return duplicate_count
+        return ans
 ```
