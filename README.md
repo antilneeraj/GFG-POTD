@@ -1,19 +1,9 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - String Mirror<br><br>
+### Title - Binary Modulo<br><br>
 
 ```python
-class Solution:
-    def stringMirror(self, str : str) -> str:
-        ans = []
-        ans.append(str[0])
-        
-        for i in range(1, len(str)):
-            if str[i - 1] > str[i] or (i > 1 and str[i] == str[i - 1]):
-                ans.append(str[i])
-            else:
-                break
-        
-        curr = ''.join(ans)
-        return curr + curr[::-1]
+class Solution():
+    def modulo(self, s, m):
+        return int(s, 2)%m
 ```
