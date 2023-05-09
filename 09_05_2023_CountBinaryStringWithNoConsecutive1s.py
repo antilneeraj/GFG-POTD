@@ -1,8 +1,3 @@
-<h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
-
-### Title - Count Binary Strings With No Consecutive 1s<br><br>
-
-```python
 MOD = 10**9 + 7
 
 class Solution:
@@ -27,4 +22,3 @@ class Solution:
             a = self.multiplyMatrices(a, a)
             n //= 2
         return result
-```
