@@ -1,30 +1,27 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Count Binary Strings With No Consecutive 1s<br><br>
+### Title - Total Cuts<br><br>
 
 ```python
-MOD = 10**9 + 7
+from typing import List
 
 class Solution:
-    def countStrings(self, N):
-        matrix = [[1, 1], [1, 0]]
-        res = self.matrixPower(matrix, N + 1)
-        return res[0][0]
+    def totalCuts(self, N: int, K: int, A: List[int]) -> int:
+        right = [0] * N
+        left = [0] * N
+        left[0] = A[0]
+        right[N-1] = A[N-1]
 
-    def multiplyMatrices(self, a, b):
-        result = [[0, 0], [0, 0]]
-        for i in range(2):
-            for j in range(2):
-                for k in range(2):
-                    result[i][j] = (result[i][j] + (a[i][k] * b[k][j]) % MOD) % MOD
-        return result
+        for i in range(1, N):
+            left[i] = max(left[i-1], A[i])
 
-    def matrixPower(self, a, n):
-        result = [[1, 0], [0, 1]]
-        while n > 0:
-            if n % 2 == 1:
-                result = self.multiplyMatrices(result, a)
-            a = self.multiplyMatrices(a, a)
-            n //= 2
-        return result
+        for i in range(N-2, -1, -1):
+            right[i] = min(right[i+1], A[i])
+        
+        ans = 0
+        for i in range(N-1):
+            if left[i] + right[i+1] >= K:
+                ans += 1
+        
+        return ans
 ```
