@@ -1,27 +1,20 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Array Operations<br><br>
+### Title - Bit Magic<br><br>
 
 ```python
 from typing import List
 
 class Solution:
-    def arrayOperations(self, n : int, arr : List[int]) -> int:
-        ans = 0
-        length = 0
-    
-        for i in range(n):
-            if arr[i] == 0:
-                if length:
-                    ans += 1
-                length = 0
-            else:
-                length += 1
-    
-        if length == n:
-            return -1
-        if length:
-            ans += 1
-    
-        return ans
+    def bitMagic(self, n : int, arr : List[int]) -> int:
+        Operations = 0
+        i = 0
+        j = n - 1
+        while i < j:
+            if(arr[i] != arr[j]):
+                Operations += 1
+            i += 1
+            j -= 1
+        ans = str(Operations/2 + Operations%2)
+        return ans[:ans.index(".")] if "." in ans else ans
 ```
