@@ -1,20 +1,19 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Bit Magic<br><br>
+### Title - Maximum Subset Sum<br><br>
 
 ```python
 from typing import List
 
 class Solution:
-    def bitMagic(self, n : int, arr : List[int]) -> int:
-        Operations = 0
-        i = 0
-        j = n - 1
-        while i < j:
-            if(arr[i] != arr[j]):
-                Operations += 1
-            i += 1
-            j -= 1
-        ans = str(Operations/2 + Operations%2)
-        return ans[:ans.index(".")] if "." in ans else ans
+    def findMaxSubsetSum(self, N : int, A : List[int]) -> int:
+        dp = [[0, 0] for _ in range(N)]
+        dp[0][0] = 0
+        dp[0][1] = A[0]
+        
+        for i in range(1, N):
+            dp[i][0] = dp[i-1][1]
+            dp[i][1] = max(dp[i-1][0], dp[i-1][1]) + A[i]
+        
+        return max(dp[N-1][0], dp[N-1][1])
 ```
