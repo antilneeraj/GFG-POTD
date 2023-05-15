@@ -1,19 +1,20 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Maximum Subset Sum<br><br>
+### Title - Count Total Setbits<br><br>
 
 ```python
-from typing import List
-
 class Solution:
-    def findMaxSubsetSum(self, N : int, A : List[int]) -> int:
-        dp = [[0, 0] for _ in range(N)]
-        dp[0][0] = 0
-        dp[0][1] = A[0]
-        
-        for i in range(1, N):
-            dp[i][0] = dp[i-1][1]
-            dp[i][1] = max(dp[i-1][0], dp[i-1][1]) + A[i]
-        
-        return max(dp[N-1][0], dp[N-1][1])
+    def countBits(self, N : int) -> int:
+    ans = 0
+    i = 1
+    n = N
+    while n != 0:
+        temp = (N + 1) // (i * 2)
+        ans += temp * i
+        temp = (N + 1) // i
+        if temp % 2 == 1:
+            ans += (N + 1) % i
+        i *= 2
+        n >>= 1
+    return ans
 ```
