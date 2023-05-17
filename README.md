@@ -1,39 +1,39 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Cutting Binary Strings<br><br>
+### Title - Trace Path<br><br>
 
 ```python
 class Solution:
-    def cuts(self, s):
-        ch = list(s)
-        n = len(s)
-        dp = [0] * (n + 1)
-        dp[0] = 0  # rep ""
+    def isPossible(self, n, m, s):
+        t_l = 0
+        t_r = 0
+        t_u = 0
+        t_d = 0
+        f_lr = 0
+        f_ud = 0
         
-        for i in range(1, n + 1):
-            j = i - 1
-            if ch[j] == '0':
-                dp[i] = -1  # not poss
+        for i in range(len(s)):
+            if s[i] == 'L':
+                f_lr += 1
+            elif s[i] == 'R':
+                f_lr -= 1
+            elif s[i] == 'U':
+                f_ud += 1
             else:
-                dp[i] = -1
-                curr_ans = float("inf")
-                to_dec = 0
-                for k in range(i):
-                    if ch[j - k] == '1':  # then only weightage counts
-                        to_dec += 1 << k
-                        if Solution.pow_of_5(to_dec) and dp[j - k] != -1:
-                            curr_ans = min(1 + dp[j - k], curr_ans)
-                if curr_ans != float("inf"):
-                    dp[i] = curr_ans
-        return dp[n]
-
-    def pow_of_5(n):
-        if n == 0:
-            return False
-        if n == 1:
-            return True
-        if n % 5 != 0:
-            return False
-        else:
-            return Solution.pow_of_5(n // 5)
+                f_ud -= 1
+            
+            if f_lr >= 0:
+                t_l = max(t_l, f_lr)
+            else:
+                t_r = min(t_r, f_lr)
+            
+            if f_ud >= 0:
+                t_u = max(t_u, f_ud)
+            else:
+                t_d = min(t_d, f_ud)
+        
+        if t_l - t_r < m and t_u - t_d < n:
+            return 1
+        
+        return 0
 ```
