@@ -1,29 +1,36 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Find number of closed islands<br><br>
+### Title - Find k-th smallest element in given n ranges<br><br>
 
 ```python
+from typing import List
+
 class Solution:
-    def help(self, arr, i, j, N, M):
-        if i < 0 or j < 0 or i == N or j == M or arr[i][j] == 0:
-            return
-        arr[i][j] = 0
-        self.help(arr, i + 1, j, N, M)
-        self.help(arr, i - 1, j, N, M)
-        self.help(arr, i, j + 1, N, M)
-        self.help(arr, i, j - 1, N, M)
-    
-    def closedIslands(self, matrix, N, M):
-        ans = 0
-        for i in range(N):
-            for j in range(M):
-                if matrix[i][j] == 1:
-                    if i == 0 or j == 0 or i == N - 1 or j == M - 1:
-                        self.help(matrix, i, j, N, M)
-        for i in range(N):
-            for j in range(M):
-                if matrix[i][j] == 1:
-                    ans += 1
-                    self.help(matrix, i, j, N, M)
+    def kthSmallestNum(self, n: int, ranges: List[List[int]], q: int, queries: List[int]) -> List[int]:
+        ranges.sort()
+        ans = []
+        for query in queries:
+            last = -1
+            found = False
+            for i in range(n):
+                start, end = ranges[i]
+                if last < end and last >= start:
+                    t = end - last
+                    if t >= query:
+                        ans.append(last + query)
+                        found = True
+                        break
+                    last = end
+                    query -= t
+                elif last < start:
+                    t = end - start + 1
+                    if t >= query:
+                        ans.append(start + query - 1)
+                        found = True
+                        break
+                    last = end
+                    query -= t
+            if not found:
+                ans.append(-1)
         return ans
 ```
