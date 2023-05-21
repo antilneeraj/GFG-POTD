@@ -1,24 +1,14 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Hands of Straights<br><br>
+### Title - Bus Conductor<br><br>
 
 ```python
-from collections import Counter
-
 class Solution:
-    def isStraightHand(self, N, groupSize, hand):
-        counter = Counter(hand)
-        hand = sorted(hand)
-        
-        for item in hand:
-            if counter[item] == 0:
-                continue
-            
-            for i in range(groupSize):
-                if counter[item + i] == 0:
-                    return False
-                
-                counter[item + i] -= 1
-        
-        return True
+    def findMoves(self,n,chairs,passengers):
+        chairs.sort()
+        passengers.sort()
+        ans = 0
+        for i in range(n):
+            ans += abs(chairs[i] - passengers[i])
+        return ans
 ```
