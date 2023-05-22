@@ -1,14 +1,21 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Bus Conductor<br><br>
+### Title - Tree Transformation<br><br>
 
 ```python
+from typing import List
+
 class Solution:
-    def findMoves(self,n,chairs,passengers):
-        chairs.sort()
-        passengers.sort()
+    def solve(self, N : int, p : List[int]) -> int:
+        con = [0] * N
+        for i in range(1, N):
+            con[i] += 1
+            con[p[i]] += 1
+    
         ans = 0
-        for i in range(n):
-            ans += abs(chairs[i] - passengers[i])
-        return ans
+        for x in con:
+            if x == 1:
+                ans += 1
+    
+        return N - ans - 1
 ```
