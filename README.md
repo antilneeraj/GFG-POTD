@@ -1,21 +1,39 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Tree Transformation<br><br>
+### Title - Construct a Full Binary Tree<br><br>
 
 ```python
-from typing import List
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
 
 class Solution:
-    def solve(self, N : int, p : List[int]) -> int:
-        con = [0] * N
-        for i in range(1, N):
-            con[i] += 1
-            con[p[i]] += 1
+    def constructBinaryTree(self, pre, pre_mirror, size):
+        pos = size - 1
+        index = 0
     
-        ans = 0
-        for x in con:
-            if x == 1:
-                ans += 1
+        def construct():
+            nonlocal index, pos
+
+            if index >= size:
+                return None
     
-        return N - ans - 1
+            current = Node(pre[index])
+    
+            if current.data != pre_mirror[pos]:
+                index += 1
+                current.left = construct()
+    
+                index += 1
+                current.right = construct()
+    
+            pos -= 1
+            return current
+    
+        head = Node(None)
+        head.left = construct()
+    
+        return head.left
 ```
