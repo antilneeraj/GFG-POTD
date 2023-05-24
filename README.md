@@ -1,39 +1,20 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Construct a Full Binary Tree<br><br>
+### Title - Maximum Identical Bowls<br><br>
 
 ```python
-class Node:
-    def __init__(self, data):
-        self.data = data
-        self.left = None
-        self.right = None
+from typing import List
 
 class Solution:
-    def constructBinaryTree(self, pre, pre_mirror, size):
-        pos = size - 1
-        index = 0
-    
-        def construct():
-            nonlocal index, pos
+    def getMaximum(self, N : int, arr : List[int]) -> int:
+        sum = 0
+        for x in arr:
+            sum += x
+        while N > 0:
+            if sum % N == 0:
+                return N
+            
+            N -= 1
 
-            if index >= size:
-                return None
-    
-            current = Node(pre[index])
-    
-            if current.data != pre_mirror[pos]:
-                index += 1
-                current.left = construct()
-    
-                index += 1
-                current.right = construct()
-    
-            pos -= 1
-            return current
-    
-        head = Node(None)
-        head.left = construct()
-    
-        return head.left
+        return 0   
 ```
