@@ -1,30 +1,23 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Expression Add Operators<br><br>
+### Title - Express as sum of power of natural numbers<br><br>
 
 ```python
+MOD = int(1e9 + 7)
+
 class Solution:
-    def addOperators(self, S, target):
-        ans = []
-        if S is None or len(S) == 0:
-            return ans
-        self.helper(ans, "", S, target, 0, 0, 0)
-        return ans
-    
-    def helper(self, ans, path, num, target, ind, p_val, prev):    
-        if ind == len(num):
-            if target == p_val:
-                ans.append(path)
-            return
-    
-        for i in range(ind, len(num)):
-            cur = int(num[ind:i+1])
-            if ind == 0:
-                self.helper(ans, path + str(cur), num, target, i + 1, cur, cur)
-            else:
-                self.helper(ans, path + "+" + str(cur), num, target, i + 1, p_val + cur, cur)
-                self.helper(ans, path + "-" + str(cur), num, target, i + 1, p_val - cur, -cur)
-                self.helper(ans, path + "*" + str(cur), num, target, i + 1, p_val - prev + prev * cur, prev * cur)
-            if num[ind] == '0':
-                break 
+	def numOfWays(self, n, x):
+        dp = [[-1] * (n + 1) for _ in range(n + 1)]
+        return self.help(n, x, 1, dp)
+
+    def help(self, n, x, num, dp):
+        if n == 0:
+            return 1
+        if num > n or n < 0:
+            return 0
+        if dp[n][num] != -1:
+            return dp[n][num]
+        temp = pow(num, x)
+        dp[n][num] = (self.help(n - temp, x, num + 1, dp) + self.help(n, x, num + 1, dp)) % MOD
+        return dp[n][num]
 ```
