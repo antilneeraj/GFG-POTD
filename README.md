@@ -1,23 +1,14 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Express as sum of power of natural numbers<br><br>
+### Title - Nth node from end of linked list<br><br>
 
 ```python
-MOD = int(1e9 + 7)
+def getNthFromLast(head,n):
+    dataArr=[]
+    while head:
+        dataArr.append(head.data)
+        head = head.next
 
-class Solution:
-	def numOfWays(self, n, x):
-        dp = [[-1] * (n + 1) for _ in range(n + 1)]
-        return self.help(n, x, 1, dp)
-
-    def help(self, n, x, num, dp):
-        if n == 0:
-            return 1
-        if num > n or n < 0:
-            return 0
-        if dp[n][num] != -1:
-            return dp[n][num]
-        temp = pow(num, x)
-        dp[n][num] = (self.help(n - temp, x, num + 1, dp) + self.help(n, x, num + 1, dp)) % MOD
-        return dp[n][num]
+    length = len(dataArr)
+    return dataArr[length-n] if length >= n else -1
 ```
