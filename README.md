@@ -1,48 +1,36 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - CamelCase Pattern Matching<br><br>
+### Title - Word Search<br><br>
 
 ```python
 class Solution:
-    def CamelCase(self, N, Dictionary, Pattern):
-        self.ans = []  # Change to instance variable
-        root = self.Trie()
-        self.build(Dictionary, root)
-        self.find(Pattern, root)
+    def isWordExist(self, board, word):
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == word[0] and self.help(board, word, i, j, 0):
+                    return True
+        return False
+    
+    def help(self, b, w, i, j, length):
+        if length == len(w):
+            return True
         
-        self.ans.sort()
-        if not self.ans:
-            self.ans.append("-1")
-        return self.ans
-    
-    def build(self, a, root):
-        for word in a:
-            temp = root
-            for i in range(len(word)):
-                if word[i].isupper():
-                    if temp.ch[ord(word[i]) - ord('A')] is None:
-                        temp.ch[ord(word[i]) - ord('A')] = self.Trie()
-                    temp = temp.ch[ord(word[i]) - ord('A')]
-            temp.al.append(word)
-    
-    def find(self, s, root):
-        for i in range(len(s)):
-            if root.ch[ord(s[i]) - ord('A')] is None:
-                return 0
-            root = root.ch[ord(s[i]) - ord('A')]
-        self.printAllWords(root)
-        return 1
-    
-    def printAllWords(self, root):
-        for word in root.al:
-            self.ans.append(word)  # Use self.ans instead of ans
-        for i in range(26):
-            child = root.ch[i]
-            if child is not None:
-                self.printAllWords(child)
-    
-    class Trie:
-        def __init__(self):
-            self.ch = [None] * 26
-            self.al = []
+        if i < 0 or j < 0 or i >= len(b) or j >= len(b[0]):
+            return False
+        
+        if b[i][j] != w[length]:
+            return False
+        
+        b[i][j] = '*'  # mark it as visited so that it cannot be used again in the path
+        
+        result = (
+            self.help(b, w, i-1, j, length+1) or  # up
+            self.help(b, w, i+1, j, length+1) or  # down
+            self.help(b, w, i, j-1, length+1) or  # left
+            self.help(b, w, i, j+1, length+1)     # right
+        )
+        
+        b[i][j] = w[length]  # revert the mark to restore the board
+        
+        return result
 ```
