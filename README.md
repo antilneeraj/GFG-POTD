@@ -1,14 +1,21 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Reversing the equation<br><br>
+### Title - Permutations of a given String<br><br>
 
 ```python
-import re
+from itertools import permutations
 
 class Solution:
-    def reverseEqn(self, s):
-        tokens = re.findall(r'\d+|\+|\-|\*|\/', s)
-        reversed_tokens = tokens[::-1] 
-        reversed_eqn = ''.join(reversed_tokens)  
-        return reversed_eqn
+    def find_permutation(self, S):
+        ans = []
+        perms = permutations(S)
+
+        unique_perms = set(''.join(perm) for perm in perms)
+
+        sorted_perms = sorted(unique_perms)
+
+        for perm in sorted_perms:
+            ans.append(''.join(perm))
+            
+        return ans
 ```
