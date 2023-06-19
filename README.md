@@ -1,28 +1,15 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Ticker Counter<br><br>
+### Title - Rearrange an array with O(1) extra space<br><br>
 
 ```python
-from collections import deque
-
 class Solution:
-    def distributeTicket(self, N: int, K: int) -> int:
-        arr = deque(range(1, N + 1))
-        iturn = True
-        count = 0
-
-        while len(arr) > 0:
-            if count < K:
-                if iturn:
-                    lastElem = arr.popleft()
-                else:
-                    lastElem = arr.pop()
-                count += 1
-
-            if count == K:
-                count = 0
-                iturn = not iturn
-
-        return lastElem
-
+    def arrange(self,arr, n): 
+        for i in range(n):
+            arr[i] += (arr[arr[i]] % n) * n
+    
+        for i in range(n):
+            arr[i] = arr[i] // n
+    
+        return arr
 ```
