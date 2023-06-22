@@ -1,15 +1,31 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Rearrange an array with O(1) extra space<br><br>
+### Title - Lemonade Change<br><br>
 
 ```python
 class Solution:
-    def arrange(self,arr, n): 
-        for i in range(n):
-            arr[i] += (arr[arr[i]] % n) * n
-    
-        for i in range(n):
-            arr[i] = arr[i] // n
-    
-        return arr
+    def lemonadeChange(self, N, bills):
+        count5 = 0
+        count10 = 0
+        
+        for bill in bills:
+            
+            if bill == 5:
+                count5 += 1
+                
+            elif bill == 10:
+                if count5 == 0:
+                    return False
+                count10 += 1
+                count5 -= 1
+                
+            elif bill == 20:
+                if count10 >= 1 and count5 >= 1:
+                    count10 -= 1
+                    count5 -= 1
+                elif count5 >= 3:
+                    count5 -= 3
+                else:
+                    return False
+        return True
 ```
