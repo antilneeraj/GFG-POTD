@@ -11,6 +11,6 @@ class Solution:
 
         for i in range(n):
             if arr[i] != i + 1:
-                return i + 
+                return i + 1
         return n + 1
 ```
