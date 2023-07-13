@@ -1,16 +1,16 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Power of Numbers<br><br>
+### Title - Unique Number of Occurrencees<br><br>
 
 ```python
+from typing import List
+
 class Solution:
-    def power(self, N, R):
-        MOD = 1000000007
-        result = 1
-        while R > 0:
-            if R % 2 == 1:
-                result = (result * N) % MOD
-            N = (N * N) % MOD
-            R //= 2
-        return result
+    def isFrequencyUnique(self, n : int, arr : List[int]) -> bool:
+        frequencies = dict()
+        for i in arr:
+            if(i not in frequencies): frequencies[i] = 0
+            frequencies[i]+=1
+        frequencies=frequencies.values()
+        return len(set(frequencies))==len(frequencies)
 ```
