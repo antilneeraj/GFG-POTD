@@ -1,14 +1,23 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Queue Reversal<br><br>
+### Title - First non-repeating character in a stream<br><br>
 
 ```python
+from collections import OrderedDict
+
 class Solution:
-    def rev(self, q):
-        stack = []
-        while not q.empty():
-            stack.append(q.get())
-        while stack:
-            q.put(stack.pop())
-        return q
+	def FirstNonRepeating(self, A):
+        counter = OrderedDict()  
+        result = ""
+    
+        for char in A:
+            if char in counter:
+                counter[char] += 1
+            else:
+                counter[char] = 1
+    
+            unique_char = next((key for key, value in counter.items() if value == 1), "#")
+            result += unique_char
+    
+        return result
 ```
