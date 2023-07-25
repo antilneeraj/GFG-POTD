@@ -1,17 +1,27 @@
 <h1 align="center">Today's GFG-POTD {Problem Of The Day}</h1>
 
-### Title - Non Repeating Character<br><br>
+### Title - Level order traversal in spiral form<br><br>
 
 ```python
-class Solution:
-    def nonrepeatingCharacter(self,s):
-        mydict = dict()
-        
-        for letter in s:
-            if(letter not in mydict): mydict[letter] = 0
-            mydict[letter] += 1
-        for letter in s:
-            if(mydict[letter] == 1):
-                return letter
-        return '$'
+def findSpiral(root):
+    depthDict={0:[root.data]}
+    elems=[root]
+    newElems=[]
+    depth=0
+    while(len(elems)):
+        depth+=1
+        depthDict[depth]=[]
+        for elem in elems:
+            depthDict[depth].append(elem.left.data) if elem.left else None
+            depthDict[depth].append(elem.right.data) if elem.right else None
+            newElems.append(elem.left) if elem.left else None
+            newElems.append(elem.right) if elem.right else None
+        elems=newElems
+        newElems=[]
+
+    ans=[]
+    for depth in depthDict:
+        for elem in (depthDict[depth] if depth%2==1 else depthDict[depth][::-1]):
+            ans.append(elem)
+    return ans
 ```
